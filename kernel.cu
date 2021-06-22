@@ -1,7 +1,9 @@
-﻿#include "cuda_runtime.h"
+#include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 #include <string>
 #include <stdio.h>
+#include <iostream>
+
 using namespace std;
 
 string getType(cudaDeviceProp devProp)
@@ -48,13 +50,13 @@ int getSPcores(cudaDeviceProp devProp)
 	case 6: // Pascal
 		if (devProp.minor == 1) cores = mp * 128;
 		else if (devProp.minor == 0) cores = mp * 64;
-		else printf("Unknown device type\n");
+		else cout << "Unknown device type\n";
 		break;
 	case 7: // Volta
 		cores = mp * 64;
 		break;
 	default:
-		printf("Unknown device type\n");
+		cout << "Unknown device type\n";
 		break;
 	}
 	return cores;
@@ -63,9 +65,9 @@ int getSPcores(cudaDeviceProp devProp)
 // Imprime las propiedades del dispositivo gráfico
 void printDevProp(cudaDeviceProp devProp)
 {
-	printf("Numero de revision mayoritario:         %d\n", devProp.major);
+	cout << " - Nombre del dispositivo: " << devProp.name << "\n";
+	cout << " - Numero de revision mayoritario: " << devProp.major << "\n";
 	printf("Numero de revision minoritario:         %d\n", devProp.minor);
-	printf("Nombre:                          %s\n", devProp.name);
 	printf("Arquitectura: %s\n", getType(devProp).c_str());
 	printf("Numero de procesadores: %d\n", devProp.multiProcessorCount);
 	printf("Cores CUDA: %d\n", getSPcores(devProp));
@@ -88,16 +90,16 @@ void printDevProp(cudaDeviceProp devProp)
 	return;
 }
 
-int main()
+int main( int argc , char* argv[] )
 {
 	// Number of CUDA devices
 	int devCount;
-	cudaGetDeviceCount(&devCount);
-	printf("CUDA Device Query...\n");
-	printf("Hay %d dispositivos CUDA.\n", devCount);
+	cudaGetDeviceCount( &devCount );
+	cout << "\t>CUDA Device Specifications<\n";
+	cout << "\t  (Total CUDA devices: " << devCount << ")\n";
 
 	// Iterate through devices
-	for (int i = 0; i < devCount; ++i)
+	for( int i = 0 ; i < devCount ; ++i )
 	{
 		// Get device properties
 		printf("\nDispositivo CUDA #%d\n", i);
