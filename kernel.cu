@@ -61,30 +61,32 @@ int getSPcores(cudaDeviceProp devProp)
 }
 
 // Imprime las propiedades del dispositivo gráfico
-void printDevProp(cudaDeviceProp devProp)
+void printDevProp( int i )
 {
-	cout << " - Nombre del dispositivo: " << devProp.name << "\n";
+	cudaDeviceProp devProp;
+	cudaGetDeviceProperties( &devProp , i );
+	cout << " - Device Name: " << devProp.name << "\n";
 	cout << " - Numero de revision mayoritario: " << devProp.major << "\n";
-	cout << "Numero de revision minoritario:         %d\n", devProp.minor;
-	cout << "Arquitectura: %s\n", getType(devProp).c_str();
-	cout << "Numero de procesadores: %d\n", devProp.multiProcessorCount;
-	cout << "Cores CUDA: %d\n", getSPcores(devProp);
-	cout << "Total de memoria global:           %u\n", devProp.totalGlobalMem;
-	cout << "Total de memoria compartida por bloque: %u\n", devProp.sharedMemPerBlock;
-	cout << "Total de registros por bloque:     %d\n", devProp.regsPerBlock;
-	cout << "Tamaño del warp:                     %d\n", devProp.warpSize;
-	cout << "Pitch maximo de memoria:          %u\n", devProp.memPitch;
-	cout << "Hilos maximos por bloque:     %d\n", devProp.maxThreadsPerBlock;
+	cout << " - Numero de revision minoritario: " << devProp.minor << "\n";
+	cout << " - Arquitectura: " << getType(devProp).c_str() << "\n";
+	cout << "Numero de procesadores: %d\n" << devProp.multiProcessorCount;
+	cout << "Cores CUDA: %d\n" << getSPcores(devProp);
+	cout << "Total de memoria global:           %u\n" << devProp.totalGlobalMem;
+	cout << "Total de memoria compartida por bloque: %u\n" << devProp.sharedMemPerBlock;
+	cout << "Total de registros por bloque:     %d\n" << devProp.regsPerBlock;
+	cout << "Tamaño del warp:                     %d\n" << devProp.warpSize;
+	cout << "Pitch maximo de memoria:          %u\n" << devProp.memPitch;
+	cout << "Hilos maximos por bloque:     %d\n" << devProp.maxThreadsPerBlock;
 	for (int i = 0; i < 3; ++i)
-		cout << "Dimension maxima %d de grid:   %d\n", i, devProp.maxGridSize[i];
+		cout << "Dimension maxima %d de grid:   %d\n" << i, devProp.maxGridSize[i];
 	for (int i = 0; i < 3; ++i)
-		cout << "Dimension maxima %d de bloque:  %d\n", i, devProp.maxThreadsDim[i];
-	cout << "Velocidad del reloj:                    %d\n", devProp.clockRate;
-	cout << "Memoria constante total:         %u\n", devProp.totalConstMem;
-	cout << "Alineamiento de textura:             %u\n", devProp.textureAlignment;
-	cout << "Copiado y ejecucion concurrente: %s\n", (devProp.deviceOverlap ? "Si" : "No");
-	cout << "Numero de multiprocesadores:     %d\n", devProp.multiProcessorCount;
-	cout << "Timeout de ejecucion del Kernel:      %s\n", (devProp.kernelExecTimeoutEnabled ? "Si" : "No");
+		cout << "Dimension maxima %d de bloque:  %d\n" << i, devProp.maxThreadsDim[i];
+	cout << "Velocidad del reloj:                    %d\n" << devProp.clockRate;
+	cout << "Memoria constante total:         %u\n" << devProp.totalConstMem;
+	cout << "Alineamiento de textura:             %u\n" << devProp.textureAlignment;
+	cout << "Copiado y ejecucion concurrente: %s\n" << (devProp.deviceOverlap ? "Si" : "No");
+	cout << "Numero de multiprocesadores:     %d\n" << devProp.multiProcessorCount;
+	cout << "Timeout de ejecucion del Kernel:      %s\n" << (devProp.kernelExecTimeoutEnabled ? "Si" : "No");
 	return;
 }
 
@@ -101,10 +103,8 @@ int main( int argc , char* argv[] )
 	{
 		cout << "##################################################\n";
 		// Get device properties
-		cout << ">CUDA device: " << i << "\n";
-		cudaDeviceProp devProp;
-		cudaGetDeviceProperties( &devProp , i );
-		printDevProp( devProp );
+		cout << "> CUDA device: " << i << "\n";
+		printDevProp( i );
 		cout << "##################################################\n\n";
 	}
 	system( "pause" );
