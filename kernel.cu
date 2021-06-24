@@ -1,6 +1,6 @@
 #include <string>
 #include <iostream>
-#include "cuda_runtime.h"
+#include <cuda_runtime.h>
 
 using namespace std;
 
@@ -96,14 +96,14 @@ int main( int argc , char* argv[] )
 	int devCount;
 	cudaGetDeviceCount( &devCount );
 	cout << "##################################################\n";
-	cout << "\t>CUDA Device Specifications<\n";
-	cout << "\t  (Total CUDA devices: " << devCount << ")\n";
+	cout << "\t  > CUDA Device Specifications <\n";
+	cout << "\t     (Total CUDA devices: " << devCount << ")\n";
 	// Iterate through devices
 	for( int i = 0 ; i < devCount ; ++i )
 	{
 		cout << "##################################################\n";
 		// Get device properties
-		cout << "> CUDA device: " << i << "\n";
+		cout << "+ CUDA device: " << i << "\n";
 		printDevProp( i );
 		cout << "##################################################\n\n";
 	}
